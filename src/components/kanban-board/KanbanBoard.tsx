@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Column, Id, Task } from "./types";
 import KanbanColumnContainer from "./KanbanColumnContainer";
 import {
@@ -14,8 +14,8 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
-import KanbanTaskCard from "./KanbanTaskCard";
 import { createPortal } from "react-dom";
+import KanbanTaskCard from "./KanbanTaskCard";
 
 const generateId = () => {
   return Math.floor(Math.random() * 10001);
@@ -34,13 +34,16 @@ const defaultTasks: Task[] = [
 ];
 
 export default function KanbanBoard() {
+  const [isClient, setIsClient] = useState(false);
+
   const [columns, setColumns] = useState<Column[]>(defaultColumns);
-  const [activeColumn, setActiveColumn] = useState<Column | null>(null);
-  const [activeTask, setActiveTask] = useState<Task | null>(null);
-  const [tasks, setTasks] = useState<Task[]>(defaultTasks);
 
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
-  const isClient = typeof window !== 'undefined';
+
+  const [activeColumn, setActiveColumn] = useState<Column | null>(null);
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
+
+  const [tasks, setTasks] = useState<Task[]>(defaultTasks);
 
   const createNewColumn = () => {
     const columnToAdd: Column = {
@@ -59,6 +62,7 @@ export default function KanbanBoard() {
   };
 
   const onDragStart = (event: DragStartEvent) => {
+    console.log("drag start", event);
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
       return;
@@ -180,21 +184,15 @@ export default function KanbanBoard() {
     setTasks(newTasks);
   };
 
-  // Use a ref to only create portal in the client
-// Use a ref to only create portal in the client
-const portalRef = useRef<HTMLDivElement | null>(null);
+  console.log(columns);
 
-useEffect(() => {
-  if (!isClient) return;
-  const portalElement = document.createElement('div');
-  portalRef.current = portalElement;
-  document.body.appendChild(portalElement);
-  return () => {
-    if (portalRef.current) {
-      document.body.removeChild(portalRef.current);
-    }
-  };
-}, [isClient]);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; // or a loading spinner
+  }
 
   return (
     <div className="w-full overflow-x-auto overflow-y-hidden">
@@ -231,31 +229,26 @@ useEffect(() => {
           </button>
         </div>
 
-        {portalRef.current && createPortal(
-          <DragOverlay>
-            {activeColumn && (
-              <KanbanColumnContainer
-                column={activeColumn}
-                deleteColumn={deleteColumn}
-                updateColumn={updateColumn}
-                createTask={createTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-                tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id
-                )}
-              />
-            )}
-            {activeTask && (
-              <KanbanTaskCard
-                task={activeTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-              />
-            )}
-          </DragOverlay>,
-          portalRef.current
-        )}
+        <DragOverlay>
+          {activeColumn && (
+            <KanbanColumnContainer
+              column={activeColumn}
+              deleteColumn={deleteColumn}
+              updateColumn={updateColumn}
+              createTask={createTask}
+              deleteTask={deleteTask}
+              updateTask={updateTask}
+              tasks={tasks.filter((task) => task.columnId === activeColumn.id)}
+            />
+          )}
+          {activeTask && (
+            <KanbanTaskCard
+              task={activeTask}
+              deleteTask={deleteTask}
+              updateTask={updateTask}
+            />
+          )}
+        </DragOverlay>
       </DndContext>
     </div>
   );
