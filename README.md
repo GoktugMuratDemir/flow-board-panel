@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Kanban Project
 
-## Getting Started
+This project is a Kanban board application built using **Next.js** and **TypeScript**, with drag-and-drop functionality powered by **@dnd-kit/core** and **@dnd-kit/sortable**.
 
-First, run the development server:
+![Kanban Board Preview](https://path-to-image.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Drag-and-Drop**: Intuitive drag-and-drop functionality using `@dnd-kit/core` and `@dnd-kit/sortable`.
+- **Column Management**: Add, remove, and manage columns on your board.
+- **Task Management**: Add tasks to different columns, move them between columns, and organize your workflow efficiently.
+- **Project Overview**: Navigate between different projects easily.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Next.js**: A React framework for production.
+- **TypeScript**: Strongly typed programming language that builds on JavaScript.
+- **@dnd-kit/core**: A modern drag-and-drop toolkit for React.
+- **@dnd-kit/sortable**: Extension of `@dnd-kit/core` for sorting and reordering items.
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+To run this project locally, follow these steps:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the repository:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   \`\`\`bash
+   git clone https://github.com/yourusername/kanban-project.git
+   \`\`\`
 
-## Deploy on Vercel
+2. Navigate to the project directory:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   \`\`\`bash
+   cd kanban-project
+   \`\`\`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. Install the dependencies:
+
+   \`\`\`bash
+   npm install
+   \`\`\`
+
+4. Start the development server:
+
+   \`\`\`bash
+   npm run dev
+   \`\`\`
+
+   The app should now be running on [http://localhost:3000](http://localhost:3000).
+
+## Usage
+
+- **Creating Columns**: Use the "Add Column" button to create new columns on the board.
+- **Managing Tasks**: Click on the "+" icon in any column to add a new task. Drag tasks between columns to update their status.
+- **Customization**: The project is built with flexibility in mind. You can easily extend it to fit your specific needs.
+
+## Project Structure
+
+- **`components/`**: Contains reusable React components.
+- **`pages/`**: Contains the Next.js pages.
+- **`styles/`**: Contains the tailwind files.
+- **`utils/`**: Contains utility functions.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
