@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { Column, Id, Task } from "./types";
 import KanbanColumnContainer from "./KanbanColumnContainer";
 import {
@@ -14,8 +14,8 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
-import { createPortal } from "react-dom";
 import KanbanTaskCard from "./KanbanTaskCard";
+import { createPortal } from "react-dom";
 
 const generateId = () => {
   return Math.floor(Math.random() * 10001);
@@ -35,13 +35,12 @@ const defaultTasks: Task[] = [
 
 export default function KanbanBoard() {
   const [columns, setColumns] = useState<Column[]>(defaultColumns);
-
-  const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
-
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
-
   const [tasks, setTasks] = useState<Task[]>(defaultTasks);
+
+  const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
+  const isClient = typeof window !== 'undefined';
 
   const createNewColumn = () => {
     const columnToAdd: Column = {
@@ -60,7 +59,6 @@ export default function KanbanBoard() {
   };
 
   const onDragStart = (event: DragStartEvent) => {
-    console.log("drag start", event);
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
       return;
@@ -182,7 +180,21 @@ export default function KanbanBoard() {
     setTasks(newTasks);
   };
 
-  console.log(columns);
+  // Use a ref to only create portal in the client
+// Use a ref to only create portal in the client
+const portalRef = useRef<HTMLDivElement | null>(null);
+
+useEffect(() => {
+  if (!isClient) return;
+  const portalElement = document.createElement('div');
+  portalRef.current = portalElement;
+  document.body.appendChild(portalElement);
+  return () => {
+    if (portalRef.current) {
+      document.body.removeChild(portalRef.current);
+    }
+  };
+}, [isClient]);
 
   return (
     <div className="w-full overflow-x-auto overflow-y-hidden">
@@ -219,7 +231,7 @@ export default function KanbanBoard() {
           </button>
         </div>
 
-        {/* {createPortal(
+        {portalRef.current && createPortal(
           <DragOverlay>
             {activeColumn && (
               <KanbanColumnContainer
@@ -242,8 +254,8 @@ export default function KanbanBoard() {
               />
             )}
           </DragOverlay>,
-          document.body
-        )} */}
+          portalRef.current
+        )}
       </DndContext>
     </div>
   );
