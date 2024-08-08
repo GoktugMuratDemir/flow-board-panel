@@ -1,3 +1,4 @@
+import KanbanBoard from "@/components/kanban-board/KanbanBoard";
 import SideNav from "@/components/SideNav";
 
 export default function Dashboard() {
@@ -7,7 +8,7 @@ export default function Dashboard() {
         <SideNav />
       </div>
       <div className="col-span-9">
-        <h1>Dashboard</h1>
+        <KanbanBoard />
       </div>
     </div>
   );
