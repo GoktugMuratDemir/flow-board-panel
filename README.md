@@ -2,7 +2,11 @@
 
 This project is a Kanban board application built using **Next.js** and **TypeScript**, with drag-and-drop functionality powered by **@dnd-kit/core** and **@dnd-kit/sortable**.
 
-![Kanban Board Preview](https://path-to-image.png)
+<!-- ![Kanban Board Preview](https://path-to-image.png) -->
+
+## Live Preview
+
+The app should now be running on [this link.](https://flow-board-panel-objkycz5v-goktug-murat-demirs-projects.vercel.app/)
 
 ## Features
 
@@ -46,7 +50,7 @@ To run this project locally, follow these steps:
    npm run dev
    \`\`\`
 
-   The app should now be running on [http://localhost:3000](http://localhost:3000).
+   The app should now be running on [https://flow-board-panel-objkycz5v-goktug-murat-demirs-projects.vercel.app/](https://flow-board-panel-objkycz5v-goktug-murat-demirs-projects.vercel.app/).
 
 ## Usage
 
