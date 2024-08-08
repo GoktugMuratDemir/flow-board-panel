@@ -1,3 +1,4 @@
+"use client"
 import { FC, InputHTMLAttributes } from "react";
 import { useFormContext, FieldError } from "react-hook-form";
 import { ErrorMessage } from "./RHFErrorMessage";
