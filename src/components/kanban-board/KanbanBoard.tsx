@@ -219,7 +219,7 @@ export default function KanbanBoard() {
           </button>
         </div>
 
-        {createPortal(
+        {/* {createPortal(
           <DragOverlay>
             {activeColumn && (
               <KanbanColumnContainer
@@ -243,7 +243,7 @@ export default function KanbanBoard() {
             )}
           </DragOverlay>,
           document.body
-        )}
+        )} */}
       </DndContext>
     </div>
   );
